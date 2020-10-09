@@ -2,7 +2,7 @@ Milestone 0: Project Ideas
 
 Team Name: zayin
 
-Application Name: 
+Application Name: FairShare
 
 Team Overview: 
   Members: Anthony Woo, Atmaja Shah, Shivani Patel
