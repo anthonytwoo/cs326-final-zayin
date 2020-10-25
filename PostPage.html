@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="PostSignInPageCSS.css">
     <meta charset="UTF-8" />
     <title>FairShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,8 +22,8 @@
         <li><a href="#">Create Post</a></li>
         <li><a href="#">Sign In / Sign Up</a></li>
       </ul>
-  <center>
-    <h1>Post</h1>
+  <div class="center_div">
+    <h1 class = "center_button">Post</h1>
     <br>
       <label for="companyName">Name of Company:</label>
       <input type="text" id="companyName">
@@ -40,17 +41,22 @@
       <input type="text" id="school">
       <br><br>
       <label for="comment">Comment: </label>
-      <input type="text" id="comment">
-      <br><br>
+      <textarea type="text" id="comment"></textarea>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <span class="heading">Overall Rating: </span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
+      <span id = "star1" class="fa fa-star"></span>
+      <span id = "star2" class="fa fa-star"></span>
+      <span id = "star3" class="fa fa-star"></span>
+      <span id = "star4" class="fa fa-star"></span>
+      <span id = "star5" class="fa fa-star"></span>
       <br><br>
-      <button id="createPost">Create Post</button>
-    </center>
+      <button class="center_button">Create Post</button>
+  </div>
+  <script src="PostPage.js"></script>
   </body>
 </html>
