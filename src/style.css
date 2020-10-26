@@ -31,6 +31,12 @@
     left:40%;
 }
 
+.welcome_header{
+    width: 600px;
+    position:relative;
+    left:0%;
+}
+
 .center_div{
     position:relative;
     margin: 0 auto;
@@ -43,4 +49,7 @@
 
 .container-fluid {
     padding: 65px;
+}
+.career_fair_image{
+    width: 400px;
 }
