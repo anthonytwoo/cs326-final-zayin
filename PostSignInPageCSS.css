@@ -4,19 +4,13 @@
     grid-gap: 10px;
     padding: 10px;
 }
-label{
+.post_label{
     display: inline-block;
     text-align: right;
     float: left;
 }
 
-input{
-    display: inline-block;
-    text-align: left;
-    float: right;
-}
-
-textarea{
+.post_input{
     display: inline-block;
     text-align: left;
     float: right;
