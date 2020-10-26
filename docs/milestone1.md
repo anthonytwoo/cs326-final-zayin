@@ -31,6 +31,8 @@ In our web application, we want to implement features that allow users to exchan
 
 
 ## Division of labor:
-Anthony Woo: List of Career Fairs, Search, Detail of posts
-Atmaja Shah:
-Shivani Patel:
+#### Anthony Woo: 
+List of Career Fairs, Search, Detail of posts
+#### Atmaja Shah:
+
+#### Shivani Patel:
