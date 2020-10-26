@@ -28,11 +28,14 @@ In our web application, we want to implement features that allow users to exchan
 
 
 ## HTML Interface:
-
+![image](Home.png)
+![image](CareerFairs.png)
+![image](SignIn.png)
+![image](PostDetail.png)
 
 ## Division of labor:
 #### Anthony Woo: 
 List of Career Fairs, Search, Detail of posts
 #### Atmaja Shah:
-
+Home Page, Add Post (including Dynamics Star Rating in Javascript), Sign Up/Sign In Page, 
 #### Shivani Patel:
