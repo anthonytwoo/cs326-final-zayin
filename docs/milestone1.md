@@ -30,6 +30,7 @@ In our web application, we want to implement features that allow users to exchan
 ## HTML Interface:
 ![image](Home.png)
 ![image](CareerFairs.png)
+![image](AddPost.png)
 ![image](SignIn.png)
 ![image](PostDetail.png)
 
