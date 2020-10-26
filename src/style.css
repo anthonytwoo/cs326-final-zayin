@@ -53,3 +53,8 @@
 .career_fair_image{
     width: 400px;
 }
+
+#post {
+    margin: auto;
+    width: 50rem;
+}
