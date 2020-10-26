@@ -47,5 +47,8 @@ textarea{
     color:orange;
 }
 
+.container-fluid {
+    padding: 65px;
+}
 
 
