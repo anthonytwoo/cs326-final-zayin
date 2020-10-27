@@ -20,17 +20,17 @@ In our web application, we want to implement features that allow users to exchan
 - Sign in/ sign up
 - Search
 - Detail of posts
-
-## Data Interactions:
-
+         
          
 ## Wireframe:
 ![image](wfHome.png)
 ![image](wfLoC.png)
+![image](wfIndPost.png)
 ![image](wfCareerFairs.png)
 ![image](wfPost.png)
 ![image](wfSignInUp.png)
 ![image](wfSearch.png)
+![image](wfPosts.png)
 
 
 ## HTML Interface:
