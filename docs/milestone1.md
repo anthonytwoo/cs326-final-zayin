@@ -23,7 +23,7 @@ In our web application, we want to implement features that allow users to exchan
 
 ## Data Interactions:
 
-
+         
 ## Wireframe:
 ![image](wfHome.png)
 ![image](wfLoC.png)
@@ -38,8 +38,9 @@ In our web application, we want to implement features that allow users to exchan
 ![image](CompanyList.png)
 ![image](CareerFairs.png)
 ![image](AddPost.png)
-![image](Account.png)
 ![image](PostDetail.png)
+![image](Account.png)
+![image](Search.png)
 
 ## Division of labor:
 #### Anthony Woo: 
