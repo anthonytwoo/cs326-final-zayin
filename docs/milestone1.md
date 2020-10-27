@@ -23,25 +23,25 @@ In our web application, we want to implement features that allow users to exchan
          
          
 ## Wireframe:
-![image](wfHome.png)
-![image](wfLoC.png)
-![image](wfIndPost.png)
-![image](wfCareerFairs.png)
-![image](wfPost.png)
-![image](wfSignInUp.png)
-![image](wfSearch.png)
-![image](wfPosts.png)
+![image](screenshots/wfHome.png)
+![image](screenshots/wfLoC.png)
+![image](screenshots/wfIndPost.png)
+![image](screenshots/wfCareerFairs.png)
+![image](screenshots/wfPost.png)
+![image](screenshots/wfSignInUp.png)
+![image](screenshots/wfSearch.png)
+![image](screenshots/wfPosts.png)
 
 
 ## HTML Interface:
-![image](Home.png)
-![image](Companies.png)
-![image](CompanyList.png)
-![image](CareerFairs.png)
-![image](AddPost.png)
-![image](PostDetail.png)
-![image](Account.png)
-![image](Search.png)
+![image](screenshots/Home.png)
+![image](screenshots/Companies.png)
+![image](screenshots/CompanyList.png)
+![image](screenshots/CareerFairs.png)
+![image](screenshots/AddPost.png)
+![image](screenshots/PostDetail.png)
+![image](screenshots/Account.png)
+![image](screenshots/Search.png)
 
 ## Division of labor:
 #### Anthony Woo: 
