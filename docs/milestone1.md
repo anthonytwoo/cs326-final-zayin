@@ -20,9 +20,7 @@ In our web application, we want to implement features that allow users to exchan
 - Sign in/ sign up
 - Search
 - Detail of posts
-
-## Data Interactions:
-
+         
          
 ## Wireframe:
 ![image](wfHome.png)
