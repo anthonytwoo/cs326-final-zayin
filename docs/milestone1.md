@@ -45,7 +45,7 @@ In our web application, we want to implement features that allow users to exchan
 
 ## Division of labor:
 #### Anthony Woo: 
-List of Career Fairs, Search, Detail of posts
+Top Panel (navbar), List of Career Fairs, Search, Detail of posts
 #### Atmaja Shah:
 Home Page, Add Post (and Dynamic Star Rating in Javascript), Sign Up/Sign In
 #### Shivani Patel:
