@@ -40,24 +40,40 @@
             </div>
         </nav>
 
-        <div class="card" id="post">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <h5 class="mb-1">Anthony Woo</h5>
-                    <small class="text-muted">3 days ago</small>
+        <div class="row">
+            <div class="col-10">
+                <div class="card" id="post">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-1">Anthony Woo</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Title: Great Conversation</p>
+                        <p class="card-text">Content: He is a very nice person.</p>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <div class="btn-group btn-group-toggle" role="group" style="width:18rem;">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="button">Like</button>
+                            <button type="button" class="btn btn-outline-danger" data-toggle="button">Dislike</button>
+                        </div>
+                        <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#comment" aria-expanded="false" aria-controls="comment">
+                            Comment
+                        </button>
+                        <div class="collapse" id="comment">
+                            <input type="text">
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="card-body">
-                <p class="card-text">Title: Great Conversation</p>
-                <p class="card-text">Content: He is a very nice person.</p>
+            <div class="col">
+                <a href="search.html" class="btn btn-outline-success my-2 my-sm-0" id="back">Back</a>
             </div>
-            <div class="btn-group btn-group-toggle" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-outline-primary">Like</button>
-                <button type="button" class="btn btn-outline-danger">Dislike</button>
-                <button type="button" class="btn btn-outline-secondary" data-toggle="button">Comment</button>
-              </div>
-            
         </div>
-        <a href="search.html" class="btn btn-outline-success my-2 my-sm-0" id="search">Back</a>
+
+        
     </body>
 </html>
