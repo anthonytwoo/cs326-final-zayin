@@ -47,3 +47,4 @@ List of Career Fairs, Search, Detail of posts
 #### Atmaja Shah:
 Home Page, Add Post (and Dynamic Star Rating in Javascript), Sign Up/Sign In
 #### Shivani Patel:
+List of Companies, List of Companies at Career Fair, Wireframe Drawings
