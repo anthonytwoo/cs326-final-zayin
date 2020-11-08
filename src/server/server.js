@@ -56,7 +56,7 @@ app.get("/books", async (req, res) => {
 
 app.get("/cf", async (req, res) => {
     const cf = await getCF();
-    res.send("JSON.stringify(cf)");
+    res.send(JSON.stringify(cf));
 });
 
 // We use GET here for simplicity
