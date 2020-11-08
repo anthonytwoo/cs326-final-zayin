@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const pgp = require("pg-promise")({
     connect(client) {
         console.log('Connected to database:', client.connectionParameters.database);
@@ -10,14 +11,9 @@ const pgp = require("pg-promise")({
 });
 
 // Local PostgreSQL credentials
-const username = "postgres";
-const password = "admin";
 
-const url = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/`;
+const url = process.env.DATABASE_URL || `postgres://postgres@localhost/`;
 const db = pgp(url);
-
-// If you use MongoDB, you will typically have two URLs. You can then use:
-// const url = (process.env.NODE_ENV === "production") ? "MongoDB Atlas URL" : "localhost URL";
 
 async function connectAndRun(task) {
     let connection = null;
@@ -45,12 +41,22 @@ async function addBook(isbn, author, title) {
     return await connectAndRun(db => db.none("INSERT INTO Books VALUES ($1, $2, $3);", [isbn, author, title]));
 }
 
+async function getCF() {
+    return await connectAndRun(db => db.any("SELECT * FROM CareerFairs;"));
+}
 
 // EXPRESS SETUP
 const app = express();
+app.use(express.static('src'));
+
 app.get("/books", async (req, res) => {
     const books = await getBooks();
     res.send(JSON.stringify(books));
+});
+
+app.get("/cf", async (req, res) => {
+    const cf = await getCF();
+    res.send("JSON.stringify(cf)");
 });
 
 // We use GET here for simplicity
@@ -59,6 +65,29 @@ app.get("/add", async (req, res) => {
     res.send("OK");
 });
 
-app.post("/")
+app.get("/", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'home.html'));
+});
+
+app.get("/company-list", async (req, res) => {
+    console.log("company");
+    res.sendFile(path.join(__dirname, '../', 'company-list.html'));
+});
+
+app.get("/career-fair-list", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'career-fair-list.html'));
+});
+
+app.get("/create-post", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'create-post.html'));
+});
+
+app.get("/login", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
+});
+
+app.get("/search", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'search.html'));
+});
 
 app.listen(process.env.PORT || 8080);

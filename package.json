@@ -1,0 +1,26 @@
+{
+  "name": "cs326-final-zayin",
+  "version": "1.0.0",
+  "description": "Group zayin",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node src/server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthonytwoo/cs326-final-zayin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anthonytwoo/cs326-final-zayin/issues"
+  },
+  "homepage": "https://github.com/anthonytwoo/cs326-final-zayin#readme",
+  "dependencies": {
+    "pg": "^8.4.2"
+  }
+}

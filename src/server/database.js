@@ -31,7 +31,11 @@ async function downVote(postID) {
 }
 
 async function search() {
-    
+
 }
 
 async function date() {}
+
+async function filterTypes(types) {
+    return await connectAndRun(db => db.any("SELECT * FROM CareerFairs WHERE type = ($1);", types));
+}
