@@ -78,8 +78,45 @@ app.get("/career-fair-list", async (req, res) => {
     res.sendFile(path.join(__dirname, '../', 'career-fair-list.html'));
 });
 
+app.get("/sign-in", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
+});
+
+app.post("/sign-in", async (req, res) => {
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', () => {
+        const data = JSON.parse(body);
+        console.log(data);
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+app.post("/sign-up", async (req, res) => {
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', () => {
+        const data = JSON.parse(body);
+        console.log(data);
+    });
+    res.writeHead(200);
+    res.end();
+});
+
 app.get("/create-post", async (req, res) => {
     res.sendFile(path.join(__dirname, '../', 'create-post.html'));
+});
+
+app.post("/create-post", async (req, res) => {
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', () => {
+        const data = JSON.parse(body);
+        console.log(data);
+    });
+    res.writeHead(200);
+    res.end();
 });
 
 app.get("/login", async (req, res) => {
