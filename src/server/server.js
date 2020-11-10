@@ -12,7 +12,7 @@ const pgp = require("pg-promise")({
 
 // Local PostgreSQL credentials
 
-const url = process.env.DATABASE_URL || `postgres://postgres@localhost/`;
+const url = process.env.DATABASE_URL || `postgres://postgres@localhost`;
 const db = pgp(url);
 
 async function connectAndRun(task) {
@@ -42,7 +42,12 @@ async function addBook(isbn, author, title) {
 }
 
 async function getCF() {
-    return await connectAndRun(db => db.any("SELECT * FROM CareerFairs;"));
+    // return await connectAndRun(db => db.any("SELECT * FROM CareerFairs;"));
+    return await {name: "xd", type: "CS"};
+}
+
+async function filterTypes(types) {
+    return await connectAndRun(db => db.any("SELECT * FROM CareerFairs WHERE type = ($1);", types));
 }
 
 // EXPRESS SETUP
@@ -56,8 +61,10 @@ app.get("/books", async (req, res) => {
 
 app.get("/cf", async (req, res) => {
     const cf = await getCF();
-    res.send(JSON.stringify(cf));
+    // res.send(JSON.stringify(cf));
+    res.send(cf);
 });
+
 
 // We use GET here for simplicity
 app.get("/add", async (req, res) => {
@@ -74,7 +81,9 @@ app.get("/company-list", async (req, res) => {
     res.sendFile(path.join(__dirname, '../', 'company-list.html'));
 });
 
+
 app.get("/career-fair-list", async (req, res) => {
+    console.log(JSON.stringify(req.query));
     res.sendFile(path.join(__dirname, '../', 'career-fair-list.html'));
 });
 
@@ -126,6 +135,7 @@ app.get("/login", async (req, res) => {
 });
 
 app.get("/search", async (req, res) => {
+    console.log(JSON.stringify(req.query));
     res.sendFile(path.join(__dirname, '../', 'search.html'));
 });
 

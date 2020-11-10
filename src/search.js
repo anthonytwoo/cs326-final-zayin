@@ -1,13 +1,9 @@
 window.addEventListener("load", async function() {
-    document.getElementById("pastCF").innerHTML = 
+    document.getElementById("search").addEventListener("click", () => {
+        const searchText = document.getElementById("searchText").value;
+        // fetch(`https://cs326-zayin-fairshare.herokuapp.com/search/?text=${searchText}`);
+        fetch(`localhost:8080/search/?text=${searchText}`);
+        document.getElementById("postList").innerHTML = `List filtered by ${searchText}`;
 
-    document.getElementById("filter").addEventListener("click", () => {
-        const typeCheckBoxes = document.querySelectorAll('input[name="type"]:checked');
-        let types = [];
-        typeCheckBoxes.forEach(checkbox => {
-            types.push(checkbox.value);
-        });
-        filterTypes(types);
-        console.log(types);
     });
 });
