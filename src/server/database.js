@@ -1,4 +1,4 @@
-async function signUp(username, password) {
+export async function signUp(username, password) {
     if(connectAndRun(db => db.any("SELECT COUNT * FROM Users WHERE username = ($1);", [username])) === 0) {
         return await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2);", [username, password]));
     }
