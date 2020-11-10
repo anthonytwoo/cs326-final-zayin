@@ -77,7 +77,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/company-list", async (req, res) => {
-    console.log("company");
+    console.log(JSON.stringify(req.query));
     res.sendFile(path.join(__dirname, '../', 'company-list.html'));
 });
 
