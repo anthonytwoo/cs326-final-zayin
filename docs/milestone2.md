@@ -134,3 +134,6 @@ Usernames: anthonytwoo, atmajashah, shipatel
 - Front End Implementation on Server & Client Side for Sign In 
 
 #### Shivani Patel:
+- Help with creating and connecting server and database
+- Skeleton code for Upvote, Downvote and Delete Post
+- Documentation for front-end implementation
