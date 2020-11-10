@@ -49,7 +49,7 @@ Usernames: anthonytwoo, atmajashah, shipatel
         - Username (PRIMARY KEY)
         - Password
 
-        ![image](screenshots/usersqltable.png)
+        ![image](screenshots/UserSQLTable.png)
 
     - Posts
         - Post ID (PRIMARY KEY)
@@ -64,7 +64,7 @@ Usernames: anthonytwoo, atmajashah, shipatel
         - Down Vote
         - School
 
-        ![image](screenshots/postsqltable.png)
+        ![image](screenshots/PostSQLTable.png)
 
     - List of Companies
         - Company ID (PRIMARY KEY)
@@ -73,7 +73,7 @@ Usernames: anthonytwoo, atmajashah, shipatel
         - Company Type
         - CareerFairID (FOREIGN KEY)
 
-        ![image](screenshots/companiessqltable.png)
+        ![image](screenshots/CompaniesSQLTable.png)
 
     - List of Career Fairs
         - Career Fair ID (PRIMARY KEY)
@@ -82,7 +82,7 @@ Usernames: anthonytwoo, atmajashah, shipatel
         - Date
         - Type of Career Fair
 
-        ![image](screenshots/careerfairsqltable.png)
+        ![image](screenshots/CareerFairSQLTable.png)
 
 
 
@@ -90,34 +90,34 @@ Usernames: anthonytwoo, atmajashah, shipatel
 ## Part 1 & 2 Back-end Skeleton Code & Front-end Implementation: 
 - Create:
     - Add Post: 
-        ![image](screenshots/createpostsite.png)
-        ![image](screenshots/createpostconsole.png)
+        ![image](screenshots/CreatePostSite.png)
+        ![image](screenshots/CreatePostConsole.png)
     - For our create operation, we implemented a create post function for our website. This takes in the username, company ID, company name, company location, company type, school, comment, and rating. It also automatically sets the upVote and downVote values to zero and auto generates a postID. We also implemented a sign up (or create account function) that takes in a username, password, and school. This allows users to make an account so that they can engage with the website. The console shows that the data was successfully sent over to the server to with the specific endpoint.
 
 - Read:
     - Past Career Fairs: 
-        ![image](screenshots/readcf.png)
+        ![image](screenshots/ReadCF.png)
     - The above screenshot is a simple example showing how we can read data from our database. The url (/cf) returns the list of career fairs in our database, and for now we only returned it as a JSON object to showcase the function. It will be implemented into the table of career fairs later on in (/career-fair-list).
 
     - Sign in: 
-        ![image](screenshots/signinsite.png)
-        ![image](screenshots/signinconsole.png)
+        ![image](screenshots/SignInSite.png)
+        ![image](screenshots/SignInConsole.png)
     - Another example of reading data is portrayed by this image of a user signing into their account, and this is being read and sent to the server, which is shown by the console under it.
 
 - Update:
     - UpVote:
-        ![image](screenshots/upvoteconsole.png)
+        ![image](screenshots/UpVoteConsole.png)
     - DownVote:
-        ![image](screenshots/downvoteconsole.png)
+        ![image](screenshots/DownVoteConsole.png)
     - For our update operation, we implemented upVote and downVote features that allow a user to indicate whether or not they found a post helpful. The vote count for each updates when either the upVote or downVote buttons are clicked. We are still working on having an undo option where the user clicks on either upVote or downVote and can undo it by clicking it again. Also, we are trying to find a way to keep a user from selecting both upVote and downVote and expect to have that implemented for the next milestone.
 
     - Filter Career Fair Table: 
-        ![image](screenshots/filter.png)
+        ![image](screenshots/Filter.png)
     - When a user selects filters and clicks apply, our application will filter the table using PostgreSQL and return the filtered list. Screenshot above shows that it returns the filters selected by the user, and we will implement the back-end code to filter and display the actual table later on.
 
 - Delete
     - Delete Post
-        ![image](screenshots/deletepostconsole.png)
+        ![image](screenshots/deletePostConsole.png)
     - For our delete operation, we created a delete post option that removes that particular post from the database. We plan on adding to it so only the user who created a post will be able to delete a post and expect to have that implemented for the next milestone. As of right now, any post that exists can be deleted by any user and will be removed from the database.
 
 ## Division of labor:
@@ -129,6 +129,8 @@ Usernames: anthonytwoo, atmajashah, shipatel
 - Documentation
 
 #### Atmaja Shah:
-- Front End Implementation on Server & Client Side for Create Post, Sign Up, Sign In 
+- Front End Implementation on Server & Client Side for Create Post
+- Front End Implementation on Server & Client Side for Sign Up
+- Front End Implementation on Server & Client Side for Sign In 
 
 #### Shivani Patel:
