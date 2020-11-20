@@ -10,6 +10,13 @@
     float: left;
 }
 
+.warning_label{
+    display: inline-block;
+    text-align: right;
+    float: left;
+    color: red;
+}
+
 .post_input{
     display: inline-block;
     text-align: left;

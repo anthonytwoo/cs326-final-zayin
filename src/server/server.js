@@ -1,3 +1,5 @@
+
+const { count } = require("console");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { get } = require("http");
@@ -14,8 +16,10 @@ const pgp = require("pg-promise")({
 });
 
 // Local PostgreSQL credentials
+const username = "postgres";
+const password = "admin";
 
-const url = process.env.DATABASE_URL || `postgres://postgres@localhost`;
+const url = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/`;
 const db = pgp(url);
 
 async function connectAndRun(task) {
@@ -35,6 +39,17 @@ async function connectAndRun(task) {
     }
 }
 
+async function signIn(username, password) {
+    ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1) AND password = ($2);", [username, password]));
+    return JSON.parse(JSON.stringify(ret)).length >= 1;
+}
+
+async function signUp(username, password) {
+    ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1) AND password = ($2);", [username, password]));
+    if (JSON.parse(JSON.stringify(ret)).length === 0){
+        return await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2);", [username, password]));
+    }
+}
 
 async function getBooks() {
     return await connectAndRun(db => db.any("SELECT * FROM Books;"));
@@ -76,6 +91,7 @@ async function getPost() {
 const app = express();
 app.use(express.static('src'));
 app.use(express.json());
+
 
 app.get("/books", async (req, res) => {
     const books = await getBooks();
@@ -150,6 +166,7 @@ app.get("/career-fair/:careerfairId", async (req, res) => {
 });
 
 app.get("/sign-in", async (req, res) => {
+    console.log(signedIn);
     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
 });
 
@@ -159,9 +176,18 @@ app.post("/sign-in", async (req, res) => {
     req.on('end', () => {
         const data = JSON.parse(body);
         console.log(data);
+        signIn(data.username, data.password).then((value)=>{
+            signedIn = value;
+            if(value){
+                res.writeHead(200);
+                res.end();
+            }
+            else{
+                res.writeHead(201);
+                res.end();
+            }
+        });
     });
-    res.writeHead(200);
-    res.end();
 });
 
 app.post("/sign-up", async (req, res) => {
@@ -170,17 +196,18 @@ app.post("/sign-up", async (req, res) => {
     req.on('end', () => {
         const data = JSON.parse(body);
         console.log(data);
+        signUp(data.username, data.password).then((value)=>{});
     });
     res.writeHead(200);
     res.end();
 });
 
 app.get("/create-post", async (req, res) => {
-
     res.sendFile(path.join(__dirname, '../', 'create-post.html'));
 });
 
 app.post("/create-post", async (req, res) => {
+    
     let body = '';
     req.on('data', data => body += data);
     req.on('end', async () => {
@@ -193,6 +220,7 @@ app.post("/create-post", async (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
+    console.log(signedIn);
     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
 });
 

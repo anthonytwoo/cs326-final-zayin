@@ -10,23 +10,24 @@ signInButton.addEventListener("click", async ()=>{
         password: password
     })
   });
-  if (!response.ok) {
-      console.error(`error`);
+  if (response.status === 200){
+    window.location = "/";
+    document.getElementById('passwordLabel').innerHTML=""
+    document.getElementById("signinHalf").style.visibility = "hidden";
+  }
+  else{
+    document.getElementById('passwordLabel').innerHTML="Incorrect username or password."
   }
 });
 createAccountButton.addEventListener("click", async ()=>{
     let username = document.getElementById("SUUsername").value;
     let password = document.getElementById("SUPassword").value;
-    let school = document.getElementById("SUSchool").value;
     const response = await fetch('/sign-up', {
       method: 'POST',
       body: JSON.stringify({
           username: username,
-          password: password,
-          school: school
+          password: password
       })
     });
-    if (!response.ok) {
-        console.error(`error`);
-    }
+    document.getElementById('accountLabel').innerHTML="Account successfully created.";
   });

@@ -1,16 +1,4 @@
-export async function signUp(username, password) {
-    if(connectAndRun(db => db.any("SELECT COUNT * FROM Users WHERE username = ($1);", [username])) === 0) {
-        return await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2);", [username, password]));
-    }
-}
 
-async function signIn(username, password) {
-    if(connectAndRun(db => db.any("SELECT COUNT * FROM Users WHERE username = ($1) AND password = ($2);", [username, password])) === 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 async function createPost(username, school, companyID, companyName, companyLocation, companyType, companyComment, companyRating) {
     let postID = connectAndRun(db=> db.any("SELECT COUNT * FROM Posts;"))+1;

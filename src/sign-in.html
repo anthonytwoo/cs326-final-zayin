@@ -39,7 +39,7 @@
         </div>
     </nav>
       <div class="grid-container">
-  <div class="center_div">
+  <div class="center_div" id = "signinHalf">
     <h1 class ="center_button">Sign In</h1>
     <br>
       <label class="post_label" for="SIUsername">Username:</label>
@@ -49,6 +49,8 @@
       <input class="post_input" type="text" id="SIPassword">
       <br><br>
       <button class="center_button" id="signIn">Sign In</button>
+      <br>
+      <label class="warning_label" id = "passwordLabel"></label>
       <br><br>
   </div>
   <div class="center_div">
@@ -60,10 +62,10 @@
     <label class="post_label" for="SUPassword">Password:</label>
     <input class="post_input" type="text" id="SUPassword">
     <br><br>
-    <label class="post_label" for="SUSchool">School: </label>
-    <input class="post_input" type="text" id="SUSchool">
-    <br><br>
     <button class = "center_button" id="createAccount">Create Account</button>
+    <br>
+      <label class="warning_label" id = "accountLabel"></label>
+      <br><br>
   </div>
   </div>
   <script src="sign-in.js"></script>
