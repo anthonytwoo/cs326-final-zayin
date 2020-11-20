@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const { getHeapCodeStatistics } = require("v8");
 const pgp = require("pg-promise")({
     connect(client) {
         console.log('Connected to database:', client.connectionParameters.database);
@@ -42,17 +43,25 @@ async function addBook(isbn, author, title) {
 }
 
 async function getCF() {
-    // return await connectAndRun(db => db.any("SELECT * FROM CareerFairs;"));
-    return await {name: "xd", type: "CS"};
+    return await connectAndRun(db => db.any("SELECT *, to_char(date,'MM/DD/YYYY') as fdate FROM CareerFairs;"));
 }
 
-async function filterTypes(types) {
-    return await connectAndRun(db => db.any("SELECT * FROM CareerFairs WHERE type = ($1);", types));
+async function getCFPosts(id) {
+    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1);", [id]));
+}
+
+async function getCompany() {
+    return await connectAndRun(db => db.any("SELECT CompanyName, CompanyLocation, CompanyType FROM Companies;"));
+}
+
+async function getPost() {
+    return await connectAndRun(db => db.any("SELECT * FROM Posts;"));
 }
 
 // EXPRESS SETUP
 const app = express();
 app.use(express.static('src'));
+app.use(express.json());
 
 app.get("/books", async (req, res) => {
     const books = await getBooks();
@@ -61,8 +70,23 @@ app.get("/books", async (req, res) => {
 
 app.get("/cf", async (req, res) => {
     const cf = await getCF();
-    // res.send(JSON.stringify(cf));
     res.send(cf);
+});
+
+app.get("/cf/:careerfairId", async (req, res) => {
+    const id = parseInt(req.params.careerfairId);
+    const cfPosts = await getCFPosts(id);
+    res.send(cfPosts);
+});
+
+app.get("/company", async (req, res) => {
+    const company = await getCompany();
+    res.send(company);
+});
+
+app.get("/post", async (req, res) => {
+    const post = await getPost();
+    res.send(post);
 });
 
 
@@ -85,6 +109,10 @@ app.get("/company-list", async (req, res) => {
 app.get("/career-fair-list", async (req, res) => {
     console.log(JSON.stringify(req.query));
     res.sendFile(path.join(__dirname, '../', 'career-fair-list.html'));
+});
+
+app.get("/career-fair/:careerfairId", async (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'career-fair.html'));
 });
 
 app.get("/sign-in", async (req, res) => {

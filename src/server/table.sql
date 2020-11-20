@@ -26,14 +26,12 @@ CREATE TABLE Companies (
 CREATE TABLE Posts (
     postID SERIAL,
     username varchar(255),
-    school varchar(255),
     careerFairID int,
     companyID int,
-    postRating int,
-    postComment varchar(2000),
-    upVote int,
-    downVote int,
+    Rating int,
+    Comment varchar(2000),
     PRIMARY KEY (postID),
+    FOREIGN KEY (username) REFERENCES Users(username),
     FOREIGN KEY (careerFairID) REFERENCES CareerFairs(careerFairID),
     FOREIGN KEY (companyID) REFERENCES Companies(companyID)
 );
