@@ -28,6 +28,7 @@ CREATE TABLE Posts (
     username varchar(255),
     careerFairID int,
     companyID int,
+    Title varchar(255),
     Rating int,
     Comment varchar(2000),
     PRIMARY KEY (postID),

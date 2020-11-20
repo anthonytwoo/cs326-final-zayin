@@ -1,4 +1,6 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const { get } = require("http");
 const path = require("path");
 const { getHeapCodeStatistics } = require("v8");
 const pgp = require("pg-promise")({
@@ -46,8 +48,20 @@ async function getCF() {
     return await connectAndRun(db => db.any("SELECT *, to_char(date,'MM/DD/YYYY') as fdate FROM CareerFairs;"));
 }
 
-async function getCFPosts(id) {
-    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1);", [id]));
+async function getCFPosts(careerfairId) {
+    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1);", [careerfairId]));
+}
+
+async function getPostCompany(postId) {
+    return await connectAndRun(db => db.any("SELECT CompanyName FROM Posts JOIN Companies ON Posts.CompanyID = Companies.CompanyID WHERE PostID = ($1);", [postId]));
+}
+
+async function getCFCompanies(careerfairId) {
+    return await connectAndRun(db => db.any("SELECT CompanyID, CompanyName FROM CareerFairs JOIN Companies ON CareerFairs.CareerFairID = Companies.CareerFairID WHERE CareerFairs.CareerFairID = ($1);", [careerfairId]));
+}
+
+async function createPost(careerfairId, companyId, username, title, rating, comment) {
+    return await connectAndRun(db => db.none("INSERT INTO Posts (careerfairid, companyid, username, title, rating, comment) values ($1, $2, $3, $4, $5, $6);", [careerfairId, companyId, username, title, rating, comment]));
 }
 
 async function getCompany() {
@@ -78,6 +92,26 @@ app.get("/cf/:careerfairId", async (req, res) => {
     const cfPosts = await getCFPosts(id);
     res.send(cfPosts);
 });
+
+app.get("/postCompany/:postId", async (req, res) => {
+    const id = parseInt(req.params.postId);
+    const postCompany = await getPostCompany(id);
+    res.send(postCompany);
+});
+
+app.get("/cfCompany/:careerfairId", async (req, res) => {
+    const id = parseInt(req.params.careerfairId);
+    const cfCompanies = await getCFCompanies(id);
+    res.send(cfCompanies);
+});
+
+// app.use(bodyParser.json());
+// app.post("/create-post", async (req, res) => {
+//     console.log(req.body);
+//     await createPost(req.body.careerfairid, req.body.companyid, req.body.username, req.body.title, req.body.rating, req.body.comment);
+//     res.writeHead(200);
+//     res.end();
+// })
 
 app.get("/company", async (req, res) => {
     const company = await getCompany();
@@ -149,9 +183,9 @@ app.get("/create-post", async (req, res) => {
 app.post("/create-post", async (req, res) => {
     let body = '';
     req.on('data', data => body += data);
-    req.on('end', () => {
+    req.on('end', async () => {
         const data = JSON.parse(body);
-        console.log(data);
+        await createPost(data.careerfairid, data.companyid, data.username, data.title, data.rating, data.comment);
 
     });
     res.writeHead(200);
