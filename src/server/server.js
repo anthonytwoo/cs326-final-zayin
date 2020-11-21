@@ -1,6 +1,11 @@
-
+require('dotenv').config();
 const { count } = require("console");
 const express = require("express");
+const express = require('express');                 // express routing
+const expressSession = require('express-session');  // for managing session state
+const passport = require('passport');  
+const LocalStrategy = require('passport-local').Strategy; // username/password strategy
+const minicrypt = require('./miniCrypt');
 const bodyParser = require("body-parser");
 const { get } = require("http");
 const path = require("path");
@@ -15,9 +20,79 @@ const pgp = require("pg-promise")({
     }
 });
 
+const mc = new minicrypt();
+
+// Session configuration
+
+const session = {
+    secret : process.env.SECRET || 'SECRET', // set this encryption key in Heroku config (never in GitHub)!
+    resave : false,
+    saveUninitialized: false
+};
+
+// Passport configuration
+
+const strategy = new LocalStrategy(
+    async (username, password, done) => {
+	if (!findUser(username)) {
+	    // no such user
+	    return done(null, false, { 'message' : 'Wrong username' });
+	}
+	if (!validatePassword(username, password)) {
+	    // invalid password
+	    // should disable logins after N messages
+	    // delay return to rate-limit brute-force attacks
+	    await new Promise((r) => setTimeout(r, 2000)); // two second delay
+	    return done(null, false, { 'message' : 'Wrong password' });
+	}
+	// success!
+	// should create a user object here, associated with a unique identifier
+	return done(null, username);
+    });
+
+app.use(expressSession(session));
+passport.use(strategy);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Convert user object to a unique identifier.
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+// Convert a unique identifier to a user object.
+passport.deserializeUser((uid, done) => {
+    done(null, uid);
+});
+
+app.use(express.json()); // allow JSON inputs
+app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
+
+function findUser(username) {
+    getCount(data.username).then((value)=>{
+        return 
+    }
+    if (!users[username]) {
+	return false;
+    } else {
+	return true;
+    }
+}
+
+function validatePassword(name, pwd) {
+    if (!findUser(name)) {
+	return false;
+    }
+    if (!mc.check(pwd, users[name][0], users[name][1])) {
+	return false;
+    }
+    return true;
+}
+
+
+
 // Local PostgreSQL credentials
 const username = "postgres";
-const password = "admin";
+const password = "india123";
 
 const url = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/`;
 const db = pgp(url);
@@ -39,15 +114,24 @@ async function connectAndRun(task) {
     }
 }
 
+async function getCount(username){
+    ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1);", [username]));
+    return JSON.parse(JSON.stringify(ret)).length >= 1;
+}
+
 async function signIn(username, password) {
     ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1) AND password = ($2);", [username, password]));
     return JSON.parse(JSON.stringify(ret)).length >= 1;
 }
 
 async function signUp(username, password) {
-    ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1) AND password = ($2);", [username, password]));
+    ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1);", [username]));
     if (JSON.parse(JSON.stringify(ret)).length === 0){
-        return await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2);", [username, password]));
+        await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2);", [username, password]));
+        return true;
+    }
+    else{
+        return false;
     }
 }
 
@@ -196,10 +280,16 @@ app.post("/sign-up", async (req, res) => {
     req.on('end', () => {
         const data = JSON.parse(body);
         console.log(data);
-        signUp(data.username, data.password).then((value)=>{});
+            if(value){
+                res.writeHead(200);
+                res.end();
+            }
+            else{
+                res.writeHead(201);
+                res.end();
+            }
+        });
     });
-    res.writeHead(200);
-    res.end();
 });
 
 app.get("/create-post", async (req, res) => {

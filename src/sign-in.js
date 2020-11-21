@@ -29,5 +29,10 @@ createAccountButton.addEventListener("click", async ()=>{
           password: password
       })
     });
-    document.getElementById('accountLabel').innerHTML="Account successfully created.";
+    if (response.status === 200){
+      document.getElementById('accountLabel').innerHTML="Account successfully created.";
+    }
+    else{
+      document.getElementById('accountLabel').innerHTML="Cannot use this username.";
+    }
   });
