@@ -36,3 +36,10 @@ CREATE TABLE Posts (
     FOREIGN KEY (careerFairID) REFERENCES CareerFairs(careerFairID),
     FOREIGN KEY (companyID) REFERENCES Companies(companyID)
 );
+
+CREATE TABLE Likes (
+    postID int,
+    username varchar(255),
+    FOREIGN KEY (postID) REFERENCES Posts(postID),
+    FOREIGN KEY (username) REFERENCES Users(username)
+);
