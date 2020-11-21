@@ -79,12 +79,24 @@ async function createPost(careerfairId, companyId, username, title, rating, comm
     return await connectAndRun(db => db.none("INSERT INTO Posts (careerfairid, companyid, username, title, rating, comment) values ($1, $2, $3, $4, $5, $6);", [careerfairId, companyId, username, title, rating, comment]));
 }
 
+async function createCF(name, school, type, date) {
+    return await connectAndRun(db => db.none("INSERT INTO CareerFairs (careerfairname, school, type, date) VALUES ($1, $2, $3, $4);", [name, school, type, date]));
+}
+
 async function getCompany() {
     return await connectAndRun(db => db.any("SELECT CompanyName, CompanyLocation, CompanyType FROM Companies;"));
 }
 
 async function getPost() {
     return await connectAndRun(db => db.any("SELECT * FROM Posts;"));
+}
+
+async function getLikes(postId) {
+    return await connectAndRun(db => db.any("SELECT COUNT (DISTINCT Likes.username) FROM Posts JOIN Likes ON Posts.postID = Likes.postID WHERE Likes.PostID = ($1);", [postId]));
+}
+
+async function addLike(postID, username) {
+    return await connectAndRun(db => db.none("INSERT INTO Likes VALUES ($1, $2);", [postID, username]));
 }
 
 // EXPRESS SETUP
