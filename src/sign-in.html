@@ -41,17 +41,21 @@
       <div class="grid-container">
   <div class="center_div" id = "signinHalf">
     <h1 class ="center_button">Sign In</h1>
-    <br>
-      <label class="post_label" for="SIUsername">Username:</label>
-      <input class="post_input" type="text" id="SIUsername">
-      <br><br>
-      <label class="post_label" for="SIPassword">Password:</label>
-      <input class="post_input" type="text" id="SIPassword">
-      <br><br>
-      <button class="center_button" id="signIn">Sign In</button>
+    <form action="/sign-in" method="post">
+      <div>
+        <label class="post_label" for="SIUsername">Username:</label>
+        <input class="post_input" type="text" id="SIUsername" name="username">
+      </div>
       <br>
-      <label class="warning_label" id = "passwordLabel"></label>
+      <div>
+        <label class="post_label" for="SIPassword">Password:</label>
+        <input class="post_input" type="text" id="SIPassword" name = "password">
+      </div>
       <br><br>
+      <div>
+          <input type="submit" class = "center_button" value="Sign In"/>
+      </div>
+    </form>
   </div>
   <div class="center_div">
     <h1 class = "center_button">Sign Up</h1>

@@ -99,7 +99,7 @@ window.addEventListener("load", async function() {
 
     document.getElementById('submit').addEventListener('click', async () => {
         const createPostTitle = document.getElementById('title').value;
-        const createPostRating = document.getElementById('rating').value;
+        const createPostRating = rating;
         const createPostComment = document.getElementById('comment').value;
         const createPostCompany = document.getElementById('companyOption').value;
 

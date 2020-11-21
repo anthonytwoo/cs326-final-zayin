@@ -1,11 +1,14 @@
 require('dotenv').config();
 const { count } = require("console");
-const express = require("express");
-const express = require('express');                 // express routing
+const express = require("express");              // express routing
 const expressSession = require('express-session');  // for managing session state
 const passport = require('passport');  
 const LocalStrategy = require('passport-local').Strategy; // username/password strategy
-const minicrypt = require('./miniCrypt');
+const app = express();
+app.use(express.static('src'));
+app.use(express.json());
+app.use(express.urlencoded({extended: true})); 
+const minicrypt = require('./miniCrypt.js');
 const bodyParser = require("body-parser");
 const { get } = require("http");
 const path = require("path");
@@ -34,20 +37,17 @@ const session = {
 
 const strategy = new LocalStrategy(
     async (username, password, done) => {
-	if (!findUser(username)) {
-	    // no such user
-	    return done(null, false, { 'message' : 'Wrong username' });
-	}
-	if (!validatePassword(username, password)) {
-	    // invalid password
-	    // should disable logins after N messages
-	    // delay return to rate-limit brute-force attacks
-	    await new Promise((r) => setTimeout(r, 2000)); // two second delay
-	    return done(null, false, { 'message' : 'Wrong password' });
-	}
-	// success!
-	// should create a user object here, associated with a unique identifier
-	return done(null, username);
+        let found = await findUser(username);
+        if (!found) {
+            return done(null, false, { 'message' : 'Wrong username' });
+        }
+        let val = await validatePassword(username, password);
+        console.log(val)
+        if (!val) {
+            await new Promise((r) => setTimeout(r, 2000));
+            return done(null, false, { 'message' : 'Wrong password' });
+        }
+        return done(null, username);
     });
 
 app.use(expressSession(session));
@@ -67,28 +67,51 @@ passport.deserializeUser((uid, done) => {
 app.use(express.json()); // allow JSON inputs
 app.use(express.urlencoded({'extended' : true})); // allow URLencoded data
 
-function findUser(username) {
-    getCount(data.username).then((value)=>{
-        return 
-    }
-    if (!users[username]) {
-	return false;
-    } else {
-	return true;
-    }
+async function findUser(username) {
+    const count = await getCount(username);
+    return count > 0;
 }
 
-function validatePassword(name, pwd) {
-    if (!findUser(name)) {
-	return false;
+async function validatePassword(name, pwd) {
+    let found = await findUser(name);
+    if (!found) {
+	    return false;
     }
-    if (!mc.check(pwd, users[name][0], users[name][1])) {
-	return false;
+    let user = await getUser(name);
+    console.log(user);
+    if (!mc.check(pwd, user.salt, user.hash)) {
+        console.log("FALSE");
+        return false;
     }
+    console.log("True");
     return true;
 }
 
+async function addUserToDatabase(name, salt, hash){
+    res = await connectAndRun(db => db.none("INSERT INTO Users VALUES ($1, $2, $3);", [name, salt, hash]));
+    return true;
+}
+       
+async function addUser(name, pwd) {
+    const value = await getCount(name);
+    if(value > 0){
+        return false;
+    }
+    const [salt, hash] = mc.hash(pwd);
+    return addUserToDatabase(name, salt, hash);
+}
 
+
+
+function checkLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+	// If we are authenticated, run the next route.
+	next();
+    } else {
+	// Otherwise, redirect to the login page.
+	res.redirect('/sign-in');
+    }
+}
 
 // Local PostgreSQL credentials
 const username = "postgres";
@@ -115,8 +138,14 @@ async function connectAndRun(task) {
 }
 
 async function getCount(username){
+    let ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1);", [username]));
+    length =  JSON.parse(JSON.stringify(ret)).length;
+    return length;
+}
+
+async function getUser(username) {
     ret = await connectAndRun(db => db.any("SELECT * FROM users WHERE username = ($1);", [username]));
-    return JSON.parse(JSON.stringify(ret)).length >= 1;
+    return JSON.parse(JSON.stringify(ret))[0];
 }
 
 async function signIn(username, password) {
@@ -184,9 +213,6 @@ async function addLike(postID, username) {
 }
 
 // EXPRESS SETUP
-const app = express();
-app.use(express.static('src'));
-app.use(express.json());
 
 
 app.get("/books", async (req, res) => {
@@ -260,47 +286,31 @@ app.get("/career-fair/:careerfairId", async (req, res) => {
 });
 
 app.get("/sign-in", async (req, res) => {
-    console.log(signedIn);
     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
 });
 
-app.post("/sign-in", async (req, res) => {
+app.post('/sign-up',
+(req, res) => {
     let body = '';
     req.on('data', data => body += data);
-    req.on('end', () => {
+    req.on('end', async () => {
         const data = JSON.parse(body);
-        console.log(data);
-        signIn(data.username, data.password).then((value)=>{
-            signedIn = value;
-            if(value){
-                res.writeHead(200);
-                res.end();
-            }
-            else{
-                res.writeHead(201);
-                res.end();
-            }
-        });
+        let value = await addUser(data.username, data.password);
+        if(value){
+            res.redirect('/');
+            console.log("SUCCESS");
+        }else {
+            res.redirect('/sign-up');
+        }
     });
 });
 
-app.post("/sign-up", async (req, res) => {
-    let body = '';
-    req.on('data', data => body += data);
-    req.on('end', () => {
-        const data = JSON.parse(body);
-        console.log(data);
-            if(value){
-                res.writeHead(200);
-                res.end();
-            }
-            else{
-                res.writeHead(201);
-                res.end();
-            }
-        });
-    });
-});
+app.post('/sign-in',
+    passport.authenticate('local' , {     // use username/password authentication
+        'successRedirect' : '/',   // when we login, go to /private 
+        'failureRedirect' : '/sign-in'      // otherwise, back to login
+    })
+);
 
 app.get("/create-post", async (req, res) => {
     res.sendFile(path.join(__dirname, '../', 'create-post.html'));
@@ -346,7 +356,6 @@ app.post("/addLike", async (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
-    console.log(signedIn);
     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
 });
 
