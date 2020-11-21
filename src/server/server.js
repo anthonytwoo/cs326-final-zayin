@@ -133,13 +133,11 @@ app.get("/cfCompany/:careerfairId", async (req, res) => {
     res.send(cfCompanies);
 });
 
-// app.use(bodyParser.json());
-// app.post("/create-post", async (req, res) => {
-//     console.log(req.body);
-//     await createPost(req.body.careerfairid, req.body.companyid, req.body.username, req.body.title, req.body.rating, req.body.comment);
-//     res.writeHead(200);
-//     res.end();
-// })
+app.get("/likeCount/:postId", async (req, res) => {
+    const id = parseInt(req.params.postId);
+    const likeCount = await getLikes(id);
+    res.send(likeCount);
+})
 
 app.get("/company", async (req, res) => {
     const company = await getCompany();
@@ -225,6 +223,32 @@ app.post("/create-post", async (req, res) => {
     req.on('end', async () => {
         const data = JSON.parse(body);
         await createPost(data.careerfairid, data.companyid, data.username, data.title, data.rating, data.comment);
+
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+app.post("/create-cf", async (req, res) => {
+    
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await createCF(data.name, data.school, data.type, data.date);
+
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+app.post("/addLike", async (req, res) => {
+    
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await addLike(data.postid, data.username);
 
     });
     res.writeHead(200);
