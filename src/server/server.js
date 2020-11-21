@@ -163,12 +163,24 @@ async function createPost(careerfairId, companyId, username, title, rating, comm
     return await connectAndRun(db => db.none("INSERT INTO Posts (careerfairid, companyid, username, title, rating, comment) values ($1, $2, $3, $4, $5, $6);", [careerfairId, companyId, username, title, rating, comment]));
 }
 
+async function createCF(name, school, type, date) {
+    return await connectAndRun(db => db.none("INSERT INTO CareerFairs (careerfairname, school, type, date) VALUES ($1, $2, $3, $4);", [name, school, type, date]));
+}
+
 async function getCompany() {
     return await connectAndRun(db => db.any("SELECT CompanyName, CompanyLocation, CompanyType FROM Companies;"));
 }
 
 async function getPost() {
     return await connectAndRun(db => db.any("SELECT * FROM Posts;"));
+}
+
+async function getLikes(postId) {
+    return await connectAndRun(db => db.any("SELECT COUNT (DISTINCT Likes.username) FROM Posts JOIN Likes ON Posts.postID = Likes.postID WHERE Likes.PostID = ($1);", [postId]));
+}
+
+async function addLike(postID, username) {
+    return await connectAndRun(db => db.none("INSERT INTO Likes VALUES ($1, $2);", [postID, username]));
 }
 
 // EXPRESS SETUP
@@ -205,13 +217,11 @@ app.get("/cfCompany/:careerfairId", async (req, res) => {
     res.send(cfCompanies);
 });
 
-// app.use(bodyParser.json());
-// app.post("/create-post", async (req, res) => {
-//     console.log(req.body);
-//     await createPost(req.body.careerfairid, req.body.companyid, req.body.username, req.body.title, req.body.rating, req.body.comment);
-//     res.writeHead(200);
-//     res.end();
-// })
+app.get("/likeCount/:postId", async (req, res) => {
+    const id = parseInt(req.params.postId);
+    const likeCount = await getLikes(id);
+    res.send(likeCount);
+})
 
 app.get("/company", async (req, res) => {
     const company = await getCompany();
@@ -303,6 +313,32 @@ app.post("/create-post", async (req, res) => {
     req.on('end', async () => {
         const data = JSON.parse(body);
         await createPost(data.careerfairid, data.companyid, data.username, data.title, data.rating, data.comment);
+
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+app.post("/create-cf", async (req, res) => {
+    
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await createCF(data.name, data.school, data.type, data.date);
+
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+app.post("/addLike", async (req, res) => {
+    
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await addLike(data.postid, data.username);
 
     });
     res.writeHead(200);

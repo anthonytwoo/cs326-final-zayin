@@ -42,6 +42,30 @@ window.addEventListener("load", async function() {
         const companyNameData = companyNameRequest.ok ? await companyNameRequest.json() : [];
         companyName.innerText = "Company: " + companyNameData[0].companyname;
 
+        const postLikesRequest  = await fetch(`../likeCount/${postId}`);
+        const postLikesData = postLikesRequest.ok ? await postLikesRequest.json() : [];
+        const likeInt = postLikesData[0].count;
+        const likeCount = document.createElement('span')
+        likeCount.innerHTML = likeInt;
+
+        like.innerText = "Like  ";
+        like.appendChild(likeCount);
+
+        like.addEventListener('click', async() => {
+            console.log(postId);
+            console.log(typeof postId);
+            const addLike = await fetch('/addLike', {
+                method: 'POST',
+                body: JSON.stringify({
+                    postid: postId,
+                    username: 'awoo',
+                })
+            });
+            if (!addLike.ok) {
+                console.error("Could not save the turn score to the server.");
+            }
+        });
+
         cardHeader1.appendChild(title);
         cardHeader2.appendChild(companyName);
         cardHeader3.appendChild(rating);
