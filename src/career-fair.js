@@ -4,6 +4,8 @@ window.addEventListener("load", async function() {
     const cfPostsRequest = await fetch(`../cf/${cfId}`);
     const cfPostsData = cfPostsRequest.ok ? await cfPostsRequest.json() : [];
     for(const cfPosts of cfPostsData) {
+        const postId = cfPosts.postid;
+
         const card = document.createElement('div');
         card.className = "card";
 
@@ -27,17 +29,55 @@ window.addEventListener("load", async function() {
         cardBody.className = "card-body";
         const comment = document.createElement('p');
 
+        const btnGroup = document.createElement('btn-group');
         const like = document.createElement('button');
         like.type = "button";
         like.className = "btn btn-outline-primary";
-        like.innerText = "Like";
+        like.innerText = "Like      ";
+
+        // const editPost = document.createElement('button');
+        // editPost.type = "button";
+        // editPost.className = "btn btn-outline-secondary dropdown-toggle";
+        // editPost.setAttribute("data-toggle", "modal");
+        // editPost.innerText = "Edit";
+
+        // const editClose = document.createElement('button');
+        // editClose.className = "btn btn-secondary";
+        // editClose.innerText = "Close";
+        // editClose.setAttribute("data-dismiss", "modal");
+        // const editSaveChanges = document.createElement('button');
+        // editSaveChanges.className = "btn btn-primary";
+        // editSaveChanges.innerText = "Save Changes";
+
+        // const editPostBody = document.createElement('div');
+        // editPostBody.className = "modal-body";
+        // const editPostInput = document.createElement('input');
+        // editPostInput.className = "dropdown-item";
+
+        // editPostDropDown.appendChild(editPostInput);
+        // editPost.appendChild(editPostDropDown);
+
+        const editPost = document.createElement('div');
+        
+
+        const deletePost = document.createElement('button');
+        deletePost.type = "button";
+        deletePost.className = "btn btn-outline-danger";
+        deletePost.innerText = "Delete";
+
+        const currentUserRequest = await fetch(`/currentUser`);
+        const currentUserData = currentUserRequest.ok ? await currentUserRequest.text() : [];
+        console.log(cfPosts.username !== currentUserData);
+        if(cfPosts.username !== currentUserData) {
+            editPost.style.display = "none";
+            deletePost.style.display = "none";
+        }
 
         title.innerText = "Title: " + cfPosts.title;
         username.innerText = "User: " + cfPosts.username;
         comment.innerText = cfPosts.comment;
         rating.innerText = "Rating: " + cfPosts.rating;
 
-        const postId = cfPosts.postid;
         const companyNameRequest = await fetch(`../postCompany/${postId}`);
         const companyNameData = companyNameRequest.ok ? await companyNameRequest.json() : [];
         companyName.innerText = "Company: " + companyNameData[0].companyname;
@@ -58,13 +98,33 @@ window.addEventListener("load", async function() {
                 method: 'POST',
                 body: JSON.stringify({
                     postid: postId,
-                    username: 'awoo',
                 })
             });
             if (!addLike.ok) {
                 console.error("Could not save the turn score to the server.");
             }
         });
+
+        // editPost.addEventListener('click', async() => {
+        //     const editPostResponse = await fetch('/editPost', {
+        //         method: 'PUT',
+
+        //     })
+        // })
+
+        deletePost.addEventListener('click', async() => {
+            const deletePostResponse = await fetch(`../deletePost/${postId}`, {
+                method: 'DELETE'
+            });
+            if(!deletePostResponse.ok) {
+                console.error("Could not delete post.");
+            }
+            location.reload();
+        })
+
+        btnGroup.appendChild(like);
+        btnGroup.appendChild(editPost);
+        btnGroup.appendChild(deletePost);
 
         cardHeader1.appendChild(title);
         cardHeader2.appendChild(companyName);
@@ -76,7 +136,7 @@ window.addEventListener("load", async function() {
         card.appendChild(cardHeader2);
         card.appendChild(cardHeader3);
         card.appendChild(cardBody);
-        card.appendChild(like);
+        card.appendChild(btnGroup);
         card.appendChild(cardFooter);
 
         document.getElementById('cfPosts').appendChild(card);
@@ -108,7 +168,6 @@ window.addEventListener("load", async function() {
             body: JSON.stringify({
                 careerfairid: cfId,
                 companyid: createPostCompany,
-                username: 'awoo',
                 title: createPostTitle,
                 rating: createPostRating,
                 comment: createPostComment

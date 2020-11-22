@@ -1,5 +1,5 @@
 window.addEventListener("load", async function() {
-    const cfRequest = await fetch('./cf');
+    const cfRequest = await fetch('/cf');
     const cfData = cfRequest.ok ? await cfRequest.json() : [];
     for (const cf of cfData) {
         const tr = document.createElement('tr');

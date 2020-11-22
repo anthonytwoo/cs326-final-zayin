@@ -1,6 +1,8 @@
+
 CREATE TABLE Users (
     username varchar(255),
-    password varchar(255),
+    salt varchar(255),
+    hash varchar(255),
     PRIMARY KEY (username)
 );
 
@@ -40,6 +42,6 @@ CREATE TABLE Posts (
 CREATE TABLE Likes (
     postID int,
     username varchar(255),
-    FOREIGN KEY (postID) REFERENCES Posts(postID),
+    FOREIGN KEY (postID) REFERENCES Posts(postID) ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES Users(username)
 );
