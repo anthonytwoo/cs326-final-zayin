@@ -18,3 +18,21 @@ createAccountButton.addEventListener("click", async ()=>{
       document.getElementById('accountLabel').innerHTML="Cannot use this username.";
     }
   });
+
+  function SIFunction() {
+    var x = document.getElementById("SIPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
+  function SUFunction() {
+    var x = document.getElementById("SUPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }

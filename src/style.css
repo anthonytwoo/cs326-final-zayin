@@ -9,6 +9,13 @@
     text-align: right;
     float: left;
 }
+/* 
+.signIU-grid{
+    display:grid;
+    grid-template-columns: 80px 200px;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+} */
 
 .warning_label{
     display: inline-block;
