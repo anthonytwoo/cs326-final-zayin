@@ -3,6 +3,7 @@ window.addEventListener("load", async function() {
     document.getElementById('submit').addEventListener('click', async () => {
         const cfName = document.getElementById('cfName').value;
         const cfSchool = document.getElementById('cfSchool').value;
+        const cfCompany = document.getElementById('cfCompany').value;
         const cfType = document.getElementById('cfType').value;
         const cfDate = document.getElementById('cfDate').value;
 
@@ -11,6 +12,7 @@ window.addEventListener("load", async function() {
             body: JSON.stringify({
                 name: cfName,
                 school: cfSchool,
+                company: cfCompany,
                 type: cfType,
                 date: cfDate
             })

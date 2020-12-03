@@ -13,6 +13,7 @@ const bodyParser = require("body-parser");
 const { get } = require("http");
 const path = require("path");
 const { getHeapCodeStatistics } = require("v8");
+const { createConnection } = require('net');
 const pgp = require("pg-promise")({
     connect(client) {
         console.log('Connected to database:', client.connectionParameters.database);
@@ -179,6 +180,10 @@ async function createCF(name, school, type, date) {
     return await connectAndRun(db => db.none("INSERT INTO CareerFairs (careerfairname, school, type, date) VALUES ($1, $2, $3, $4);", [name, school, type, date]));
 }
 
+async function createCo(company) {
+    return await connectAndRun(db => db.none("INSERT INTO Companies (company) VALUES ($1);", [company]));
+}
+
 //Post Functions
 
 async function getCFPosts(careerfairId) {
@@ -284,6 +289,7 @@ app.post("/create-cf",
     req.on('end', async () => {
         const data = JSON.parse(body);
         await createCF(data.name, data.school, data.type, data.date);
+        await createCo(data.company);
     });
     res.writeHead(200);
     res.end();
@@ -499,4 +505,4 @@ app.get('/logout', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../', 'search.html'));
 // });
 
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 8081);
