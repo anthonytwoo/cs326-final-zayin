@@ -28,17 +28,25 @@ window.addEventListener("load", async function() {
         const comment = document.createElement('p');
   
         const btnGroup = document.createElement('btn-group');
+
         const like = document.createElement('button');
         like.type = "button";
         like.className = "btn btn-outline-primary";
         like.innerText = "Like      ";
 
+<<<<<<< Updated upstream
         const editPost = document.createElement('button');
         editPost.type = "button";
         editPost.className = "btn btn-outline-secondary";
         editPost.innerText = "Edit";
         //if(username does not match)
         //  editPost.style.display = "None";
+=======
+        const edit = document.createElement('button');
+        edit.type = "button";
+        edit.className = "btn btn-outline-secondary";
+        edit.innerText = "Edit";
+>>>>>>> Stashed changes
 
         const deletePost = document.createElement('button');
         deletePost.type = "button";
@@ -47,7 +55,18 @@ window.addEventListener("load", async function() {
         // if(username does not match)
         //  editPost.style.display = "None";
 
+<<<<<<< Updated upstream
         
+=======
+        const currentUserRequest = await fetch(`/currentUser`);
+        const currentUserData = currentUserRequest.ok ? await currentUserRequest.text() : [];
+        console.log(cfPosts.username !== currentUserData);
+        if(cfPosts.username !== currentUserData) {
+            // editPost.style.display = "none";
+            deletePost.style.display = "none";
+        }
+
+>>>>>>> Stashed changes
         title.innerText = "Title: " + cfPosts.title;
         username.innerText = "User: " + cfPosts.username;
         comment.innerText = cfPosts.comment;
@@ -78,12 +97,9 @@ window.addEventListener("load", async function() {
             }
         });
 
-        // editPost.addEventListener('click', async() => {
-        //     const editPostResponse = await fetch('/editPost', {
-        //         method: 'PUT',
-
-        //     })
-        // })
+        edit.addEventListener('click', function() {
+            document.location.href = `../editPost/${postId}`;
+        });
 
         deletePost.addEventListener('click', async() => {
             const deletePostResponse = await fetch(`../deletePost/${postId}`, {
@@ -96,7 +112,7 @@ window.addEventListener("load", async function() {
         })
 
         btnGroup.appendChild(like);
-        btnGroup.appendChild(editPost);
+        btnGroup.appendChild(edit);
         btnGroup.appendChild(deletePost);
   
         cardHeader1.appendChild(title);

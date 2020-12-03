@@ -205,6 +205,10 @@ async function addLike(postId, username) {
     return await connectAndRun(db => db.none("INSERT INTO Likes VALUES ($1, $2);", [postId, username]));
 }
 
+async function editPost(postId, companyId, title, rating, comment) {
+    return await connectAndRun(db => db.none("UPDATE Posts SET companyId = ($1), title = ($2), rating = ($3), comment = ($4) WHERE postID = ($5);", [companyId, title, rating, comment, postId]));
+}
+
 async function deletePost(postId) {
     return await connectAndRun(db => db.none("DELETE FROM Posts WHERE PostId = ($1);", [postId]));
 }
@@ -268,11 +272,40 @@ app.get("/post", async (req, res) => {
     res.send(post);
 });
 
+<<<<<<< Updated upstream
 
 // We use GET here for simplicity
 app.get("/add", async (req, res) => {
     await addBook(req.query.isbn, req.query.author, req.query.title);
     res.send("OK");
+=======
+//Go to edit-post By PostId
+app.get('/editPost/:postId'),
+    checkLoggedIn,
+    async (req, res) => {
+        res.sendFile(path.join(__dirname, '../', 'edit-post.html'));
+    }
+
+app.put('/edit-post/:postId'),
+    checkLoggedIn,
+    async (req, res) => {
+        const id = parseInt(req.params.postId);
+        let body = '';
+        req.on('data', data => body += data);
+        req.on('end', async () => {
+        const data = JSON.parse(body);
+        await editPost(id, data.companyid, data.title, data.rating, data.comment);
+    });
+    }
+
+//Get Like Count For Specific Post By PostId
+app.get("/likeCount/:postId",
+    checkLoggedIn,
+    async (req, res) => {
+    const id = parseInt(req.params.postId);
+    const likeCount = await getLikes(id);
+    res.send(likeCount);
+>>>>>>> Stashed changes
 });
 
 app.get("/", async (req, res) => {
