@@ -201,6 +201,10 @@ async function addLike(postID, username) {
     return await connectAndRun(db => db.none("INSERT INTO Likes VALUES ($1, $2);", [postID, username]));
 }
 
+async function editPost(postId, title, rating, comment) {
+    return await connectAndRun(db => db.none("UPDATE Posts SET title = ($1), rating = ($2), comment = ($3) WHERE postId = ($4);", [title, rating, comment, postId]));
+}
+
 async function deletePost(postId) {
     return await connectAndRun(db => db.none("DELETE FROM Posts WHERE PostId = ($1);", [postId]));
 }
@@ -337,14 +341,36 @@ app.post("/create-post",
     res.end();
 });
 
+//Update Post By postId
+app.put("/editPost/:postId",
+    checkLoggedIn,
+    async (req, res) => {
+    const id = parseInt(req.params.postId);
+    let body = '';
+    req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await editPost(id, data.title, data.rating, data.comment);
+    });
+    res.writeHead(200);
+    res.end()
+});
+
 //Delete Post By postId
 app.delete("/deletePost/:postId",
     checkLoggedIn,
     async (req, res) => {
-    const id = parseInt(req.params.postId);
-    await deletePost(id);
-    res.writeHead(200);
-    res.end();
+        const id = parseInt(req.params.postId);
+        await deletePost(id);
+        res.writeHead(200);
+        res.end();
+});
+
+//Go to Edit Post Page By PostId
+app.get("/edit-post/:postId",
+    checkLoggedIn,
+    async (req, res) => {
+        res.sendFile(path.join(__dirname, '../', 'edit-post.html'));
 });
 
 app.get("/currentUser",

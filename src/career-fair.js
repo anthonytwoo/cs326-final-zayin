@@ -35,29 +35,10 @@ window.addEventListener("load", async function() {
         like.className = "btn btn-outline-primary";
         like.innerText = "Like      ";
 
-        // const editPost = document.createElement('button');
-        // editPost.type = "button";
-        // editPost.className = "btn btn-outline-secondary dropdown-toggle";
-        // editPost.setAttribute("data-toggle", "modal");
-        // editPost.innerText = "Edit";
-
-        // const editClose = document.createElement('button');
-        // editClose.className = "btn btn-secondary";
-        // editClose.innerText = "Close";
-        // editClose.setAttribute("data-dismiss", "modal");
-        // const editSaveChanges = document.createElement('button');
-        // editSaveChanges.className = "btn btn-primary";
-        // editSaveChanges.innerText = "Save Changes";
-
-        // const editPostBody = document.createElement('div');
-        // editPostBody.className = "modal-body";
-        // const editPostInput = document.createElement('input');
-        // editPostInput.className = "dropdown-item";
-
-        // editPostDropDown.appendChild(editPostInput);
-        // editPost.appendChild(editPostDropDown);
-
-        const editPost = document.createElement('div');
+        const editPost = document.createElement('button');
+        editPost.type = "button";
+        editPost.className = "btn btn-outline-secondary";
+        editPost.innerText = "Edit";
         
 
         const deletePost = document.createElement('button');
@@ -105,12 +86,9 @@ window.addEventListener("load", async function() {
             }
         });
 
-        // editPost.addEventListener('click', async() => {
-        //     const editPostResponse = await fetch('/editPost', {
-        //         method: 'PUT',
-
-        //     })
-        // })
+        editPost.addEventListener('click', function() {
+            document.location.href = `../edit-post/${postId}`;
+        });
 
         deletePost.addEventListener('click', async() => {
             const deletePostResponse = await fetch(`../deletePost/${postId}`, {
