@@ -367,7 +367,7 @@ app.delete("/deletePost/:postId",
 });
 
 //Go to Edit Post Page By PostId
-app.get("/edit-post/:postId",
+app.get("/edit-post/:cfId/:postId",
     checkLoggedIn,
     async (req, res) => {
         res.sendFile(path.join(__dirname, '../', 'edit-post.html'));

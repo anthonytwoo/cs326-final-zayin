@@ -87,7 +87,7 @@ window.addEventListener("load", async function() {
         });
 
         editPost.addEventListener('click', function() {
-            document.location.href = `../edit-post/${postId}`;
+            document.location.href = `../edit-post/${cfId}/${postId}`;
         });
 
         deletePost.addEventListener('click', async() => {
