@@ -2,6 +2,8 @@
 
 ## Application Name: FairShare
 
+## Application Link: https://cs326-zayin-fairshare.herokuapp.com
+
 ## Semester: Fall 2020
 
 ## Application Overview:
