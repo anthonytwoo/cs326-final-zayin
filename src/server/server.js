@@ -201,8 +201,12 @@ async function addLike(postID, username) {
     return await connectAndRun(db => db.none("INSERT INTO Likes VALUES ($1, $2);", [postID, username]));
 }
 
-async function editPost(postId, title, rating, comment) {
-    return await connectAndRun(db => db.none("UPDATE Posts SET title = ($1), rating = ($2), comment = ($3) WHERE postId = ($4);", [title, rating, comment, postId]));
+async function getPost(postId) {
+    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE postID = ($1);", [postId]));
+}
+
+async function editPost(postId, companyId, title, rating, comment) {
+    return await connectAndRun(db => db.none("UPDATE Posts SET title = ($1), companyID = ($2), rating = ($3), comment = ($4) WHERE postId = ($5);", [title, companyId, rating, comment, postId]));
 }
 
 async function deletePost(postId) {
@@ -295,6 +299,15 @@ app.post("/create-cf",
 
 //Posts
 
+//Get Info for Specific Post By PostId
+app.get("/getPost/:postId",
+    checkLoggedIn,
+    async (req, res) => {
+        const id = parseInt(req.params.postId);
+        const post = await getPost(id);
+        res.send(post);
+    })
+
 //Get Like Count For Specific Post By PostId
 app.get("/likeCount/:postId",
     checkLoggedIn,
@@ -350,7 +363,7 @@ app.put("/editPost/:postId",
     req.on('data', data => body += data);
     req.on('end', async () => {
         const data = JSON.parse(body);
-        await editPost(id, data.title, data.rating, data.comment);
+        await editPost(id, data.companyid, data.title, data.rating, data.comment);
     });
     res.writeHead(200);
     res.end()
