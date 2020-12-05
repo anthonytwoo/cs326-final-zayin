@@ -83,6 +83,7 @@ window.addEventListener('load', async function () {
       if (!addLike.ok) {
         console.error('Could not save the turn score to the server.')
       }
+      location.reload()
     })
 
     editPost.addEventListener('click', function () {
