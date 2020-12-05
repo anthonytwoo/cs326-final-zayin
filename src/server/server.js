@@ -175,6 +175,10 @@ async function getCFCompanies(careerfairId) {
     return await connectAndRun(db => db.any("SELECT CompanyID, CompanyName FROM CareerFairs JOIN Companies ON CareerFairs.CareerFairID = Companies.CareerFairID WHERE CareerFairs.CareerFairID = ($1);", [careerfairId]));
 }
 
+async function createCo(companyname, careerfairid) {
+    return await connectAndRun(db => db.none("INSERT INTO Companies (companyname, careerfairid) VALUES ($1, $2) ON CONFLICT NO ACTION;", [companyname, careerfairid]));
+}
+
 async function createCF(name, school, type, date) {
     return await connectAndRun(db => db.none("INSERT INTO CareerFairs (careerfairname, school, type, date) VALUES ($1, $2, $3, $4);", [name, school, type, date]));
 }
@@ -182,7 +186,7 @@ async function createCF(name, school, type, date) {
 //Post Functions
 
 async function getCFPosts(careerfairId) {
-    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1);", [careerfairId]));
+    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1) ORDER BY PostID DESC;", [careerfairId]));
 }
 
 async function getPostCompany(postId) {
@@ -324,6 +328,18 @@ app.get("/postCompany/:postId",
     const id = parseInt(req.params.postId);
     const postCompany = await getPostCompany(id);
     res.send(postCompany);
+});
+
+app.post("/cf/:careerfairId/addCo",
+    checkLoggedIn,
+    async (req, res) => {
+    let body = '';req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await createCo(data.addCompanyName, parseInt(req.params.careerfairId));
+    });
+    res.writeHead(200);
+    res.end();
 });
 
 //Add Like
