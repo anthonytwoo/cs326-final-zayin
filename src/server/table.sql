@@ -18,10 +18,9 @@ CREATE TABLE CareerFairs (
 CREATE TABLE Companies (
     companyID SERIAL,
     companyName varchar(255),
-    companyLocation varchar(255),
-    companyType varchar(255),
     careerFairID int,
     PRIMARY KEY (companyID),
+    UNIQUE (companyName, careerFairID),
     FOREIGN KEY (careerFairID) REFERENCES CareerFairs(careerFairID)
 );
 

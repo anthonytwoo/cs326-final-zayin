@@ -180,7 +180,7 @@ async function getCFCompanies (careerfairId) {
 }
 
 async function createCo (companyname, careerfairid) {
-  return await connectAndRun(db => db.none('INSERT INTO Companies (companyname, careerfairid) VALUES ($1, $2) ON CONFLICT DO NOTHING;', [companyname, careerfairid]))
+  return await connectAndRun(db => db.none('INSERT INTO Companies (companyname, careerfairid) VALUES ($1, $2) ON CONFLICT (companyname, careerfairid) DO NOTHING;', [companyname, careerfairid]))
 }
 
 async function createCF (name, school, type, date) {
