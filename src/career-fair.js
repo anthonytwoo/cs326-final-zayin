@@ -155,4 +155,18 @@ window.addEventListener("load", async function() {
             console.error("Could not save the turn score to the server.");
         }
     });
+    let addCompanyButn = document.getElementById('addCompanyButton');
+    addCompanyButn.addEventListener("click", async ()=>{
+        let addCompanyName = document.getElementById("addCompanyName").value;
+        const response = await fetch(`/cf/${cfId}/addCo`, {
+            method: 'POST',
+            body: JSON.stringify({
+                addCompanyName: addCompanyName,
+            })
+        });
+        if (!response.ok) {
+            console.error(`error`);
+        }
+        location.reload();
+    });
 });

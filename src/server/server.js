@@ -183,6 +183,10 @@ async function getCFCompanies(careerfairId) {
     return await connectAndRun(db => db.any("SELECT CompanyID, CompanyName FROM CareerFairs JOIN Companies ON CareerFairs.CareerFairID = Companies.CareerFairID WHERE CareerFairs.CareerFairID = ($1);", [careerfairId]));
 }
 
+async function createCo(companyname, careerfairid) {
+    return await connectAndRun(db => db.none("INSERT INTO Companies (companyname, careerfairid) VALUES ($1, $2) ON CONFLICT NO ACTION;", [companyname, careerfairid]));
+}
+
 async function createCF(name, school, type, date) {
     return await connectAndRun(db => db.none("INSERT INTO CareerFairs (careerfairname, school, type, date) VALUES ($1, $2, $3, $4);", [name, school, type, date]));
 }
@@ -190,7 +194,7 @@ async function createCF(name, school, type, date) {
 //Post Functions
 
 async function getCFPosts(careerfairId) {
-    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1);", [careerfairId]));
+    return await connectAndRun(db => db.any("SELECT * FROM Posts WHERE CareerFairID = ($1) ORDER BY PostID DESC;", [careerfairId]));
 }
 
 async function getPostCompany(postId) {
@@ -334,6 +338,18 @@ app.get("/postCompany/:postId",
     res.send(postCompany);
 });
 
+app.post("/cf/:careerfairId/addCo",
+    checkLoggedIn,
+    async (req, res) => {
+    let body = '';req.on('data', data => body += data);
+    req.on('end', async () => {
+        const data = JSON.parse(body);
+        await createCo(data.addCompanyName, parseInt(req.params.careerfairId));
+    });
+    res.writeHead(200);
+    res.end();
+});
+
 //Add Like
 app.post("/addLike",
     checkLoggedIn,
@@ -457,93 +473,5 @@ app.get('/logout', (req, res) => {
     req.logout(); // Logs us out!
     res.redirect('/'); // back to homepage
 });
-
-
-
-// app.get("/company", async (req, res) => {
-//     const company = await getCompany();
-//     res.send(company);
-// });
-
-// app.get("/post", async (req, res) => {
-//     const post = await getPost();
-//     res.send(post);
-// });
-
-// app.get("/company-list", async (req, res) => {
-//     console.log(JSON.stringify(req.query));
-//     res.sendFile(path.join(__dirname, '../', 'company-list.html'));
-// });
-
-
-// app.get("/sign-in", async (req, res) => {
-//     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
-// });
-
-// app.post('/sign-up',
-// (req, res) => {
-//     let body = '';
-//     req.on('data', data => body += data);
-//     req.on('end', async () => {
-//         const data = JSON.parse(body);
-//         let value = await addUser(data.username, data.password);
-//         if(value){
-//             res.redirect('/');
-//             console.log("SUCCESS");
-//         }else {
-//             res.redirect('/sign-up');
-//         }
-//     });
-// });
-
-
-// app.get('/logout', (req, res) => {
-//     req.logout(); // Logs us out!
-//     res.redirect('/login'); // back to login
-// });
-
-// app.get("/create-post", async (req, res) => {
-//     res.sendFile(path.join(__dirname, '../', 'create-post.html'));
-// });
-
-// app.get("/create-career-fair", async (req, res) => {
-//     res.sendFile(path.join(__dirname, '../', 'create-career-fair.html'));
-// });
-
-// app.post("/create-cf", async (req, res) => {
-    
-//     let body = '';
-//     req.on('data', data => body += data);
-//     req.on('end', async () => {
-//         const data = JSON.parse(body);
-//         await createCF(data.name, data.school, data.type, data.date);
-
-//     });
-//     res.writeHead(200);
-//     res.end();
-// });
-
-// app.post("/create-post", async (req, res) => {
-    
-//     let body = '';
-//     req.on('data', data => body += data);
-//     req.on('end', async () => {
-//         const data = JSON.parse(body);
-//         await createPost(data.careerfairid, data.companyid, data.username, data.title, data.rating, data.comment);
-
-//     });
-//     res.writeHead(200);
-//     res.end();
-// });
-
-
-// app.get("/login", async (req, res) => {
-//     res.sendFile(path.join(__dirname, '../', 'sign-in.html'));
-// });
-
-// app.get("/search", async (req, res) => {
-//     console.log(JSON.stringify(req.query));
-//     res.sendFile(path.join(__dirname, '../', 'search.html'));
-// });
 
 app.listen(process.env.PORT || 8080);

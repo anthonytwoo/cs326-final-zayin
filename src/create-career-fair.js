@@ -18,5 +18,6 @@ window.addEventListener("load", async function() {
         if (!createPost.ok) {
             console.error("Could not save the turn score to the server.");
         }
+        document.location.href = "/career-fair-list";
     });
 });
