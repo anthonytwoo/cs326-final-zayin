@@ -12,7 +12,21 @@ Members: Anthony Woo, Atmaja Shah, Shivani Patel
 GitHub Usernames: anthonytwoo, atmajashah, shipatel
 
 ## User Interface:
-
+-Home Page:
+        ![image](screenshots/HomePage.png)
+    - The home page welcomes the user to FairShare, and gives them an overview of the web application. There is a navigation bar at the top that allows users to navigate to other pages (regardless of what page they are on).
+-Sign Up/Sign In Page:
+        ![image](screenshots/SignUpSignIn.png)
+    - The sign up and sign in page allows the user to either create an account or login to if they have an exisiting account. Before the user signs in (or creates and account and signs in), they will only be able to view the home page and the sign up and sign in page. When a user creates an account, they will be prompted with a message that it was successfully created. If they use a preexisting username when they create an account, they will not be able to do so and they will be prompted with a message that they cannot use the username. When a user signs in with incorrect login credentials, it will prompt them with a message that they entered the incorrect username or password. Otherwise, they will be able to login and access all the features of the web application. If they click on any page in the navigation bar without being signed in, they will be redirected to the sign up and sign in page.
+-Add Career Fair Page
+        ![image](screenshots/CreateCF.png)
+    - The add career fair page allows users to add career fairs that they have attended or may attend, so that they can create posts within that specific career fair. In order to add a career fair, the user fills out a form with the name of the career fair, the schools involved in the career fair, the majors or fields that are targeted for the career fair, and the date that it is taking place.
+-List of Career Fairs Page
+        ![image](screenshots/ListCF.png)
+    -This page presents the lists of career fairs that have been added by users. Users can click on an individual career fair, and this will navigate to a page with a list of posts for that specific career fair. 
+-Post Page for a Career Fair
+        ![image](screenshots/PostPage.png)
+    -This page presents all of the posts that users have posted for a specific career fair, and allows users to create their own posts and interact with other posts (by liking). It should be noted that each career fair will have its own post page. 
 ## APIs:
 
 ## Database:
@@ -145,7 +159,6 @@ Likes Table
 | logout			  | Takes user to the public homepage. Accessed by clicking  |
 |				  | the "Logout" button at the top of the screen. Must be    |
 |				  | signed in to see this button.			     |
-
 
 ## Authentication/Authorization:
 The process of authenticating a user proceeds as follows: When a user creates an account, they enter a username and password; the database stores the username as is, however it encrypts the password with a salt and hash and stores the hash in the database. If the username already exists, the server returns a message to inform the user that they cannot use the username. However, if the username does not exist, the server returns a message to inform the user that their account was successfully created. When a user signs in, they enter their username and password. Once the server receives the username and password, it first checks the database to see if the username exists. Since the actual password is not stored in the database, the server checks for the salt and hash values associated with the specific username. If the password authentication fails or the username does not exist in the database, then the server will return a message to inform the user that they entered the incorrect username or password. When sign in credentials are entered incorrectly, the server also times out for two seconds to prevent constant spamming of incorrect credentials. On the other hand, if the user has been authenticated successfully, they are automatically redirected to the homepage, where they are welcomed with their username. Once the user has signed in, they can create posts, interact with other posts, and access other pages. Once they logout, they will only be able to access the homepage. If they try to naviagte to any other page, it will automatically redirect them to the Sign up/Sign in page.
