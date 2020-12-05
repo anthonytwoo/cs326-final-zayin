@@ -147,6 +147,68 @@ Likes Table
 |				  | signed in to see this button.			     |
 
 
+
+## APIs:
+* /cf
+  * checks to see if user is logged in
+  * gets list of career fairs from the database (careerfairs table)
+  * accessed by clicking "Career Fairs" tab
+* /cf/:careerfairId
+  * checks to see if user is logged in
+  * gets list of posts from the database according to a specific career fair ID (careerfairs table)
+  * accessed by clicking on a specific career fair on the "Career Fairs" page
+* /cfCompany/:careerfairID
+  * checks to see if user is logged in
+  * gets list of companies from the database according to a specific career fair ID (companies table)
+  * accessed by clicking on a specific career fair on the "Career Fairs" page
+* /create-cf
+  * checks to see if user is logged in
+  * posts a new, user created, career fair, which is then added to the database
+  * adds career fair name, school it was held at, type of career fair, and date of the fair to careerfairs table
+  * accessed by clicking on the "Create Career Fair" button and posts data from populated fields
+* /getPost/:postId
+  * checks to see if user is logged in
+  * displays post based on the post id (posts table)
+* /likeCount/:postId
+  * checks to see if user is logged in
+  * displays like Count based on the post id (likes table) 
+* /postCompany/:postId
+  * checks to see if user is logged in
+  * displays company name based on the post id (companies table)
+* /addLike
+  * checks to see if user is logged in
+  * inserts row into likes table where the post ID and username have to be a unique combination
+* /create-post
+  * checks to see if user is logged in
+  * posts a new, user created, post, which is then added to the database
+  * adds career fair name, company, username, rating, and comment to the posts table
+  * accessed by clicking on the "Create Post" button on the "Career Fairs" page and posts data from populated fields
+* /editPost/:postId
+  * checks to see if user is logged in
+  * ability to edit, user created, post, which is then updated in the database
+  * edits career fair name, company, username, rating, and comment in the posts table based on post ID
+  * accessed by clicking on the "Edit" button on a specific Career Fair page and posts data from populated fields
+* /deletePost/:postId
+  * checks to see if user is logged in
+  * deletes a user created post which is then removed the database
+  * removes an instance from the posts table based on post ID
+  * accessed by clicking on the "Delete" button on a specific Career Fair page
+* /sign-up
+  * allows user to sign up for an account
+  * if unique username and appropriate password is provided, the data from the populated fields is used to create a new instance in the users table and a success message is displayed
+  * if above criteria is not met, nothing is added to database and an error message is displayed
+  * accessed by clicking "Sign Up" on the "Sign in/Sign up" page
+* /sign-in
+  * allows user to sign into their account
+  * if proper login info is provided, user is allowed to access private pages (users table)
+  * if above criteria is not met, an error message is displayed
+  * accessed by clicking "Sign In" on the "Sign in/Sign up" page
+* /cf/:careerfairId/addCo
+  * checks to see if user is logged in
+  * adds a company to a certain career fair based on career fair ID (companies table)
+  * accessed by clicking on the "Add Company" button on a specific Career Fair page
+
+  
 ## Authentication/Authorization:
 The process of authenticating a user proceeds as follows: When a user creates an account, they enter a username and password; the database stores the username as is, however it encrypts the password with a salt and hash and stores the hash in the database. If the username already exists, the server returns a message to inform the user that they cannot use the username. However, if the username does not exist, the server returns a message to inform the user that their account was successfully created. When a user signs in, they enter their username and password. Once the server receives the username and password, it first checks the database to see if the username exists. Since the actual password is not stored in the database, the server checks for the salt and hash values associated with the specific username. If the password authentication fails or the username does not exist in the database, then the server will return a message to inform the user that they entered the incorrect username or password. When sign in credentials are entered incorrectly, the server also times out for two seconds to prevent constant spamming of incorrect credentials. On the other hand, if the user has been authenticated successfully, they are automatically redirected to the homepage, where they are welcomed with their username. Once the user has signed in, they can create posts, interact with other posts, and access other pages. Once they logout, they will only be able to access the homepage. If they try to naviagte to any other page, it will automatically redirect them to the Sign up/Sign in page.
 
