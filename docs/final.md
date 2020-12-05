@@ -64,9 +64,7 @@ Companies Table
 | Column           | Data Type | Description                                  |
 |------------------|-----------|----------------------------------------------|
 | company ID       | SERIAL    | The company’s unique identifier              |
-| companyName      | String    | The name of a particular company             |                 
-| companyLocation  | String    | The location of a particular company (city)  |         
-| companyType      | String    | Type of company (subjects/specialties        |                               
+| companyName      | String    | The name of a particular company             |                        
 | careerFairID     | Integer   | The career fair’s unique identifier          |   
 |                  |           | (references careerFairs table)               |
 
@@ -117,8 +115,39 @@ Likes Table
 
 ## URL Routes/Mappings:
 
+| URL Routes          		  | Description                                              |
+|---------------------------------|----------------------------------------------------------|
+| career-fair-list     		  | Used to obtain a list of all available career fairs in   |      
+| 		    	          | the database. Accessed by clicking the "Career Fairs"    |
+|				  | button at the top of every page. Requires users to login |
+|				  | before they can access the page			     | 
+| career-fair/:careerfairId       | Used to access a list of all posts that have the same    | 
+| 			          | career fair ID. Accessed by clicking on a particular     |
+|				  | career fair on the "Career Fairs" page. Requires users   |
+|			          | to login before they can access the page		     | 
+| create-career-fair	          | Used to create a career fair. Accessed by clicking the   | 
+| 			          | "Add Career Fair" button at the top of the page. Requires|
+|			  	  | users to login before they can access the page	     |
+| edit-post/:cfId/:postId	  | Takes user to a page where they can edit their post      | 
+| 			          | based on ID. Accessed by clicking the "Edit" button      |
+|				  | underneath their post. Requires users to login before    | 
+| 			          | they can access the page				     | 
+| sign-in			  | Used to access the sign in and sign up page. Accessed    | 
+| 			          | by clicking the "Sign up/Sign in" button at the top of   |
+|				  | the page     			    		     | 
+| private			  | Once the user has logged in, it takes in the request     |
+|				  | username and redirects to /private/:username/ which takes| 
+|				  | users to the private homepage. Checks to see if user is  |
+|				  | signed in before they can access the home page	     | 
+| private/:username		  | Takes user to the private homepage from /private/. Checks|
+|				  | to see if user is signed in before they can access the   |
+|				  | homepage						     | 
+| logout			  | Takes user to the public homepage. Accessed by clicking  |
+|				  | the "Logout" button at the top of the screen. Must be    |
+|				  | signed in to see this button.			     |
+
+
 ## Authentication/Authorization:
-The process of authenticating a user proceeds as follows: When a user creates an account, they enter a username and password; the database stores the username as is, however it encrypts the password with a salt and hash and stores the hash in the database. If the username already exists, the server returns a message to inform the user that they cannot use the username. However, if the username does not exist, the server returns a message to inform the user that their account was successfully created. When a user signs in, they enter their username and password. Once the server receives the username and password, it first checks the database to see if the username exists. Since the actual password is not stored in the database, the server checks for the salt and hash values associated with the specific username. If the password authentication fails or the username does not exist in the database, then the server will return a message to inform the user that they entered the incorrect username or password. When sign in credentials are entered incorrectly, the server also times out for two seconds to prevent constant spamming of incorrect credentials. On the other hand, if the user has been authenticated successfully, they are automatically redirected to the homepage, where they are welcomed with their username. Once the user has signed in, they can create posts, interact with other posts, and access other pages. Once they logout, they will only be able to access the homepage. If they try to naviagte to any other page, it will automatically redirect them to the Sign up/Sign in page.
 
 ## Division of Labor:
 #### Anthony Woo: 
