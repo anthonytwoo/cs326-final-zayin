@@ -230,6 +230,12 @@ The process of authenticating a user proceeds as follows: When a user creates an
 	- Helped with Debugging Add Company, Like & Delete Post Functions
 	- Helped with Sign in / Sign up Front-end
 #### Atmaja Shah:
+    -Sign Up/Sign In (Front End/Back End/Authentication)
+    -Original Create Post Page (Front End/Back End used for new Post page)
+    -Home Page
+    -Helped with layout of new Post Page
+    -Star Rating (Functionality)
+    -Final Documentation
 #### Shivani Patel:
 
 ## Conclusion:
