@@ -1,3 +1,3 @@
-signedIn = false;
+const signedIn = false
 
-exports.data = signedIn;
+exports.data = signedIn
