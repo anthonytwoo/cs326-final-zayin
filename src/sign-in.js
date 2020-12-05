@@ -12,18 +12,21 @@ if (info) {
 createAccountButton.addEventListener('click', async () => {
   const username = document.getElementById('SUUsername').value
   const password = document.getElementById('SUPassword').value
-  console.log(password)
-  const response = await fetch('/sign-up', {
-    method: 'POST',
-    body: JSON.stringify({
-      username: username,
-      password: password
-    })
-  })
-  if (response.status === 200) {
-    document.getElementById('accountLabel').innerHTML = 'Account successfully created.'
+  if(username == "" || password == "") {
+    document.getElementById('accountLabel').innerHTML = 'Username or Password cannot be empty.'
   } else {
-    document.getElementById('accountLabel').innerHTML = 'Cannot use this username.'
+    const response = await fetch('/sign-up', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    if (response.status === 200) {
+      document.getElementById('accountLabel').innerHTML = 'Account successfully created.'
+    } else {
+      document.getElementById('accountLabel').innerHTML = 'Cannot use this username.'
+    }
   }
 })
 

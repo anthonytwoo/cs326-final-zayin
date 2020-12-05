@@ -120,7 +120,7 @@ function checkLoggedIn (req, res, next) {
 // 	password = process.env.PASSWORD;
 // }
 
-const username = "postgres";
+const username = 'postgres'
 
 const url = process.env.DATABASE_URL || `postgres://${username}@localhost/`
 const db = pgp(url)

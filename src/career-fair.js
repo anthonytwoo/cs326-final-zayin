@@ -135,23 +135,25 @@ window.addEventListener('load', async function () {
   }
 
   document.getElementById('submit').addEventListener('click', async () => {
-    const createPostTitle = document.getElementById('title').value
-    const createPostRating = rating
-    const createPostComment = document.getElementById('comment').value
-    const createPostCompany = document.getElementById('companyOption').value
+    if(rating != 0) {
+      const createPostTitle = document.getElementById('title').value
+      const createPostRating = rating
+      const createPostComment = document.getElementById('comment').value
+      const createPostCompany = document.getElementById('companyOption').value
 
-    const createPost = await fetch('/create-post', {
-      method: 'POST',
-      body: JSON.stringify({
-        careerfairid: cfId,
-        companyid: createPostCompany,
-        title: createPostTitle,
-        rating: createPostRating,
-        comment: createPostComment
+      const createPost = await fetch('/create-post', {
+        method: 'POST',
+        body: JSON.stringify({
+          careerfairid: cfId,
+          companyid: createPostCompany,
+          title: createPostTitle,
+          rating: createPostRating,
+          comment: createPostComment
+        })
       })
-    })
-    if (!createPost.ok) {
-      console.error('Could not save the turn score to the server.')
+      if (!createPost.ok) {
+        console.error('Could not save the turn score to the server.')
+      }
     }
   })
   const addCompanyButn = document.getElementById('addCompanyButton')
