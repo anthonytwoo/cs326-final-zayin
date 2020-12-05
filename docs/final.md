@@ -8,8 +8,8 @@
 Fair Share is an application intended to enable students to share their experiences at career fairs with their peers and interact with them on the subject. Inspired by a feature on the career networking platform Handshake where students can share their experience working at a company, we felt it would be useful for students to share and exchange notes about their experiences at career fairs (such as interacting with talent acquisition employees, what certain companies look for over others, and much more)—especially since this concept has not been implemented yet. The core objective of this application is achieved by allowing students to make accounts with FairShare, add posts relating their personal experiences at specific career fairs, and interact with other posts by liking posts. 
 
 ## Team Overview:
-Members: Anthony Woo, Atmaja Shah, Shivani Patel GitHub 
-Usernames: anthonytwoo, atmajashah, shipatel
+Members: Anthony Woo, Atmaja Shah, Shivani Patel 
+GitHub Usernames: anthonytwoo, atmajashah, shipatel
 
 ## User Interface:
 
