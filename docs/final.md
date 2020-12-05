@@ -9,6 +9,7 @@ Fair Share is an application intended to enable students to share their experien
 
 ## Team Overview:
 Members: Anthony Woo, Atmaja Shah, Shivani Patel 
+
 GitHub Usernames: anthonytwoo, atmajashah, shipatel
 
 ## User Interface:
