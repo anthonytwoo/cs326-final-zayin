@@ -422,7 +422,7 @@ app.post('/sign-up',
 app.post('/sign-in',
     passport.authenticate('local' , {     // use username/password authentication
         'successRedirect' : '/private',   // when we login, go to /private 
-        'failureRedirect' : '/sign-in'      // otherwise, back to login
+        'failureRedirect' : '/sign-in?error="error"'      // otherwise, back to login
     })
 );
 

@@ -1,5 +1,14 @@
 let createAccountButton = document.getElementById('createAccount');
 
+const urlParams = new URLSearchParams(window.location.search);
+const info = urlParams.get('error');
+console.log(info);
+if(info) {
+  const errorMessage = document.getElementById("error");
+  errorMessage.innerText = "Incorrect username and/or password";
+  //errorMessage.style.display = "block";
+}
+
 createAccountButton.addEventListener("click", async ()=>{
     let username = document.getElementById("SUUsername").value;
     let password = document.getElementById("SUPassword").value;
