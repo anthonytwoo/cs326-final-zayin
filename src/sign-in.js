@@ -12,7 +12,7 @@ if (info) {
 createAccountButton.addEventListener('click', async () => {
   const username = document.getElementById('SUUsername').value
   const password = document.getElementById('SUPassword').value
-  if(username == "" || password == "") {
+  if (username === '' || password === '') {
     document.getElementById('accountLabel').innerHTML = 'Username or Password cannot be empty.'
   } else {
     const response = await fetch('/sign-up', {
