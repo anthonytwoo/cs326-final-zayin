@@ -26,19 +26,20 @@ window.addEventListener('load', async function () {
     const createPostRating = rating
     const createPostComment = document.getElementById('comment').value
     const createPostCompany = document.getElementById('companyOption').value
-
-    const createPost = await fetch(`/editPost/${postId}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        careerfairid: cfId,
-        companyid: createPostCompany,
-        title: createPostTitle,
-        rating: createPostRating,
-        comment: createPostComment
+    if (createPostTitle !== '' && rating !== 0 && createPostComment !== '' && createPostCompany >= 1) {
+      const createPost = await fetch(`/editPost/${postId}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          careerfairid: cfId,
+          companyid: createPostCompany,
+          title: createPostTitle,
+          rating: createPostRating,
+          comment: createPostComment
+        })
       })
-    })
-    if (!createPost.ok) {
-      console.error('Could not save the turn score to the server.')
+      if (!createPost.ok) {
+        console.error('Could not save the turn score to the server.')
+      }
     }
 
     document.location.href = `/career-fair/${cfId}`

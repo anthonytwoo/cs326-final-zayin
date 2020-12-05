@@ -136,12 +136,12 @@ window.addEventListener('load', async function () {
   }
 
   document.getElementById('submit').addEventListener('click', async () => {
-    if(rating != 0) {
-      const createPostTitle = document.getElementById('title').value
-      const createPostRating = rating
-      const createPostComment = document.getElementById('comment').value
-      const createPostCompany = document.getElementById('companyOption').value
+    const createPostTitle = document.getElementById('title').value
+    const createPostRating = rating
+    const createPostComment = document.getElementById('comment').value
+    const createPostCompany = document.getElementById('companyOption').value
 
+    if (createPostTitle !== '' && rating !== 0 && createPostComment !== '' && createPostCompany >= 1) {
       const createPost = await fetch('/create-post', {
         method: 'POST',
         body: JSON.stringify({
@@ -160,14 +160,16 @@ window.addEventListener('load', async function () {
   const addCompanyButn = document.getElementById('addCompanyButton')
   addCompanyButn.addEventListener('click', async () => {
     const addCompanyName = document.getElementById('addCompanyName').value
-    const response = await fetch(`/cf/${cfId}/addCo`, {
-      method: 'POST',
-      body: JSON.stringify({
-        addCompanyName: addCompanyName
+    if (addCompanyName !== '') {
+      const response = await fetch(`/cf/${cfId}/addCo`, {
+        method: 'POST',
+        body: JSON.stringify({
+          addCompanyName: addCompanyName
+        })
       })
-    })
-    if (!response.ok) {
-      console.error('error')
+      if (!response.ok) {
+        console.error('error')
+      }
     }
     location.reload()
   })

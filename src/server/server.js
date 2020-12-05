@@ -117,7 +117,7 @@ function checkLoggedIn (req, res, next) {
 //     secrets = require('./secrets.json');
 //     password = secrets.password;
 // } else {
-// 	password = process.env.PASSWORD;
+// 	  password = process.env.PASSWORD;
 // }
 
 const username = 'postgres'

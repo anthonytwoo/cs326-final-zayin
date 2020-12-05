@@ -3,7 +3,7 @@ window.addEventListener('load', async function () {
   const cfData = cfRequest.ok ? await cfRequest.json() : []
   for (const cf of cfData) {
     const tr = document.createElement('tr')
-    tr.setAttribute('data-href','')
+    tr.setAttribute('data-href', '')
     const name = document.createElement('td')
     name.setAttribute('name', 'name')
     const school = document.createElement('td')

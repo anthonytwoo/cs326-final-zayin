@@ -5,17 +5,19 @@ window.addEventListener('load', async function () {
     const cfType = document.getElementById('cfType').value
     const cfDate = document.getElementById('cfDate').value
 
-    const createPost = await fetch('/create-cf', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: cfName,
-        school: cfSchool,
-        type: cfType,
-        date: cfDate
+    if (cfName !== '' && cfSchool !== '' && cfType !== '') {
+      const createPost = await fetch('/create-cf', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: cfName,
+          school: cfSchool,
+          type: cfType,
+          date: cfDate
+        })
       })
-    })
-    if (!createPost.ok) {
-      console.error('Could not save the turn score to the server.')
+      if (!createPost.ok) {
+        console.error('Could not save the turn score to the server.')
+      }
     }
     document.location.href = '/career-fair-list'
   })
