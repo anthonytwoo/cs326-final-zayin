@@ -114,8 +114,8 @@ function checkLoggedIn (req, res, next) {
 let secrets;
 let password;
 if (!process.env.PASSWORD) {
-secrets = require('secrets.json');
-password = secrets.password;
+    secrets = require('secrets.json');
+    password = secrets.password;
 } else {
 	password = process.env.PASSWORD;
 }

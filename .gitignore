@@ -1,3 +1,3 @@
 node_modules
-secret.json
+secrets.json
 src/server/secrets.json
