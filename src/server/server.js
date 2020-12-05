@@ -111,18 +111,18 @@ function checkLoggedIn (req, res, next) {
 }
 
 // Local PostgreSQL credentials
-let secrets;
-let password;
-if (!process.env.PASSWORD) {
-    secrets = require('./secrets.json');
-    password = secrets.password;
-} else {
-	password = process.env.PASSWORD;
-}
+// let secrets;
+// let password;
+// if (!process.env.PASSWORD) {
+//     secrets = require('./secrets.json');
+//     password = secrets.password;
+// } else {
+// 	password = process.env.PASSWORD;
+// }
 
 const username = "postgres";
 
-const url = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/`
+const url = process.env.DATABASE_URL || `postgres://${username}@localhost/`
 const db = pgp(url)
 
 async function connectAndRun (task) {
